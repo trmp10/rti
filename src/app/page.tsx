@@ -131,7 +131,7 @@ export default function RTISubmissionsPage() {
 
           {/* Filters */}
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-[400px] [&>div]:h-10 [&>div]:flex [&>div]:items-center [&>div]:px-2 [&>div>div:first-child]:mr-2">
+            <div className="w-[400px] [&>div]:h-10 [&>div]:flex [&>div]:items-center [&>div]:px-2">
               <SearchField
                 placeholder="Search for a company"
                 value={search}
