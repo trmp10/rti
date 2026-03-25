@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.resolve.alias['@finity/design-system'] = path.resolve(
       __dirname,
-      '../finity-design-system/dist/index.mjs'
+      './vendor/finity-design-system/index.mjs'
     );
     return config;
   },
