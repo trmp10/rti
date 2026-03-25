@@ -157,12 +157,12 @@ export default function RTISubmissionsPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[var(--color-border-subtle)]">
-                <th className="py-3 pr-6 text-left text-[13px] font-semibold text-[var(--color-text-default)]">Type</th>
+                <th className="py-3 pl-2 pr-6 text-left text-[13px] font-semibold text-[var(--color-text-default)]">Type</th>
                 <th className="py-3 pr-6 text-left text-[13px] font-semibold text-[var(--color-text-default)]">Company</th>
                 <th className="py-3 pr-6 text-left text-[13px] font-semibold text-[var(--color-text-default)]">Date created</th>
                 <th className="py-3 pr-6 text-left text-[13px] font-semibold text-[var(--color-text-default)]">Process date</th>
                 <th className="py-3 pr-6 text-left text-[13px] font-semibold text-[var(--color-text-default)]">Status</th>
-                <th className="py-3 text-right text-[13px] font-semibold text-[var(--color-text-default)]">Action required</th>
+                <th className="py-3 pr-2 text-right text-[13px] font-semibold text-[var(--color-text-default)]">Action required</th>
               </tr>
             </thead>
             <tbody>
@@ -171,9 +171,9 @@ export default function RTISubmissionsPage() {
                 return (
                   <tr
                     key={row.id}
-                    className="border-b border-[var(--color-border-subtle)] last:border-0 hover:bg-[var(--color-grey-100)] transition-colors"
+                    className="border-b border-[var(--color-border-subtle)] last:border-0 hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer"
                   >
-                    <td className={`py-4 pr-6 text-[14px] font-medium ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
+                    <td className={`py-4 pl-2 pr-6 text-[14px] font-medium ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
                       {row.type}
                     </td>
                     <td className={`py-4 pr-6 text-[14px] ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
@@ -188,7 +188,7 @@ export default function RTISubmissionsPage() {
                     <td className="py-4 pr-6">
                       <StatusTag status={row.status} />
                     </td>
-                    <td className="py-4 text-[13px] text-right">
+                    <td className="py-4 pr-2 text-[13px] text-right">
                       {row.actionRequired && (
                         <a href="#" className="text-[var(--color-coral-500)] font-semibold underline">
                           {row.actionRequired}
