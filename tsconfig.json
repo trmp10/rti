@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@finity/design-system": ["./vendor/finity-design-system/index.d.ts"]
     }
   },
   "include": [
