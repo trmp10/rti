@@ -78,7 +78,7 @@ export default function RejectedPage() {
 
                 {/* Company + dates */}
                 <div className="flex flex-col gap-4">
-                  <span className="text-[16px] font-semibold text-[var(--color-coral-400)] leading-[22px]">
+                  <span className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] cursor-pointer">
                     Bluecrest Solutions
                   </span>
                   <div className="flex flex-col gap-2">
@@ -91,7 +91,7 @@ export default function RejectedPage() {
               {/* Re-send button (disabled) */}
               <button
                 disabled
-                className="w-full h-10 rounded-full bg-[var(--color-grey-200)] text-[var(--color-grey-400)] text-[14px] font-medium cursor-not-allowed"
+                className="w-full h-10 rounded-full bg-[var(--color-grey-200)] text-[var(--color-grey-400)] text-[16px] font-medium cursor-not-allowed"
               >
                 Re-send to HMRC
               </button>
@@ -192,16 +192,16 @@ export default function RejectedPage() {
                             <span className="text-[16px] font-medium text-[#171717] leading-[22px]">3 errors are blocking this submission</span>
                           </div>
                           {/* Error list */}
-                          <div className="flex flex-col">
-                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-50)] cursor-pointer transition-colors">
+                          <div className="flex flex-col -mx-6 border-t border-[var(--color-border-subtle)]">
+                            <div className="flex items-center justify-between gap-4 px-6 py-3 border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or incorrect dates of birth</span>
                               <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
-                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-50)] cursor-pointer transition-colors">
+                            <div className="flex items-center justify-between gap-4 px-6 py-3 border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing address lines 1 and 2</span>
                               <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
-                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-50)] cursor-pointer transition-colors">
+                            <div className="flex items-center justify-between gap-4 px-6 py-3 hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or unmatched National Insurance numbers (NiNo)</span>
                               <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
