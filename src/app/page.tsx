@@ -178,16 +178,16 @@ export default function RTISubmissionsPage() {
                     }}
                     className={`border-b border-[var(--color-border-subtle)] last:border-0 transition-colors ${dis ? 'cursor-default' : 'hover:bg-[var(--color-grey-100)] cursor-pointer'}`}
                   >
-                    <td className={`py-4 pl-2 pr-6 text-[14px] font-medium ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
+                    <td className={`py-4 pl-2 pr-6 text-[14px] font-semibold ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
                       {row.type}
                     </td>
-                    <td className={`py-4 pr-6 text-[14px] ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
+                    <td className={`py-4 pr-6 text-[14px] font-medium ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
                       {row.company}
                     </td>
-                    <td className={`py-4 pr-6 text-[13px] ${dis ? 'text-[var(--color-text-disabled)]' : 'text-[var(--color-text-secondary)]'}`}>
+                    <td className={`py-4 pr-6 text-[13px] font-medium ${dis ? 'text-[var(--color-text-disabled)]' : 'text-[var(--color-text-secondary)]'}`}>
                       {row.dateCreated}
                     </td>
-                    <td className={`py-4 pr-6 text-[13px] ${dis ? 'text-[var(--color-text-disabled)]' : 'text-[var(--color-text-secondary)]'}`}>
+                    <td className={`py-4 pr-6 text-[13px] font-medium ${dis ? 'text-[var(--color-text-disabled)]' : 'text-[var(--color-text-secondary)]'}`}>
                       {row.processDate}
                     </td>
                     <td className="py-4 pr-6">
