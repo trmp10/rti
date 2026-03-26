@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { PayrollSidebar } from '@/components/PayrollSidebar';
 import { SearchField, InfoFilled } from '@finity/design-system';
 
@@ -82,6 +83,7 @@ function SelectFilter({
 }
 
 export default function RTISubmissionsPage() {
+  const router = useRouter();
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -171,6 +173,9 @@ export default function RTISubmissionsPage() {
                 return (
                   <tr
                     key={row.id}
+                    onClick={() => {
+                      if (!dis) router.push('/rejected');
+                    }}
                     className={`border-b border-[var(--color-border-subtle)] last:border-0 transition-colors ${dis ? 'cursor-default' : 'hover:bg-[var(--color-grey-100)] cursor-pointer'}`}
                   >
                     <td className={`py-4 pl-2 pr-6 text-[14px] font-medium ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
