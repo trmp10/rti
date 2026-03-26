@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { PayrollSidebar } from '@/components/PayrollSidebar';
 
 function RejectedTag() {
@@ -20,11 +19,11 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function DataRow({ label, value, labelColor }: { label: string; value: string; labelColor?: string }) {
+function DataRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center h-[22px] w-full">
-      <span className={`w-[360px] shrink-0 text-[16px] font-normal leading-[22px] ${labelColor ?? 'text-[var(--color-text-default)]'}`}>{label}</span>
-      <span className="flex-1 text-right text-[16px] font-normal text-[#171717] leading-[22px]">{value}</span>
+      <span className="w-[360px] shrink-0 text-[16px] font-normal leading-[22px]" style={{ color: '#404040' }}>{label}</span>
+      <span className="flex-1 text-right text-[16px] font-normal leading-[22px]" style={{ color: '#171717' }}>{value}</span>
     </div>
   );
 }
@@ -79,12 +78,9 @@ export default function RejectedPage() {
 
                 {/* Company + dates */}
                 <div className="flex flex-col gap-4">
-                  <Link
-                    href="/"
-                    className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px]"
-                  >
+                  <span className="text-[16px] font-semibold text-[var(--color-coral-400)] leading-[22px]">
                     Bluecrest Solutions
-                  </Link>
+                  </span>
                   <div className="flex flex-col gap-2">
                     <InfoRow label="Date created" value="21/03/2025" />
                     <InfoRow label="Process date" value="21/03/2025" />
@@ -118,11 +114,11 @@ export default function RejectedPage() {
                 <div className="px-5 pt-5 pb-5">
                   {/* Inline info rows */}
                   <div className="flex flex-col gap-[4px]">
-                    <DataRow label="Tax year" value="2024-2025" labelColor="text-[#404040]" />
-                    <DataRow label="Period" value="Month 10" labelColor="text-[#404040]" />
-                    <DataRow label="PAYE reference" value="123/AB123" labelColor="text-[#404040]" />
-                    <DataRow label="Submission ID" value="EPS-2024-07-001" labelColor="text-[#404040]" />
-                    <DataRow label="Accounts office reference" value="147PK13301315" labelColor="text-[#404040]" />
+                    <DataRow label="Tax year" value="2024-2025" />
+                    <DataRow label="Period" value="Month 10" />
+                    <DataRow label="PAYE reference" value="123/AB123" />
+                    <DataRow label="Submission ID" value="EPS-2024-07-001" />
+                    <DataRow label="Accounts office reference" value="147PK13301315" />
                   </div>
 
                   {/* 32px gap then sections */}
@@ -158,7 +154,7 @@ export default function RejectedPage() {
 
                 {/* Card footer */}
                 <div className="px-5 py-3 border-t border-[var(--color-border-subtle)] flex justify-end">
-                  <button className="h-10 px-4 rounded-full border border-[var(--color-border-default)] bg-white text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors">
+                  <button className="h-10 px-4 rounded-full border border-[var(--color-border-default)] bg-white text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors cursor-pointer">
                     Download receipt
                   </button>
                 </div>
@@ -196,18 +192,18 @@ export default function RejectedPage() {
                             <span className="text-[16px] font-medium text-[#171717] leading-[22px]">3 errors are blocking this submission</span>
                           </div>
                           {/* Error list */}
-                          <div className="flex flex-col gap-[4px]">
-                            <div className="flex items-start justify-between gap-2">
+                          <div className="flex flex-col">
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-50)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or incorrect dates of birth</span>
-                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0">Fix</a>
+                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
-                            <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-50)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing address lines 1 and 2</span>
-                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0">Fix</a>
+                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
-                            <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-50)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or unmatched National Insurance numbers (NiNo)</span>
-                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0">Fix</a>
+                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
                           </div>
                         </div>
@@ -218,13 +214,13 @@ export default function RejectedPage() {
 
                 {/* Card footer */}
                 <div className="px-5 py-3 border-t border-[var(--color-border-subtle)] flex items-center justify-end gap-2">
-                  <button className="h-10 px-4 rounded-full text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors">
+                  <button className="h-10 px-4 rounded-full text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
                     Request XML
                   </button>
-                  <button className="h-10 px-4 rounded-full text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors">
+                  <button className="h-10 px-4 rounded-full text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
                     Response XML
                   </button>
-                  <button className="h-10 px-4 rounded-full border border-[var(--color-border-default)] bg-white text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors">
+                  <button className="h-10 px-4 rounded-full border border-[var(--color-border-default)] bg-white text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors cursor-pointer">
                     Smart inspection
                   </button>
                 </div>
