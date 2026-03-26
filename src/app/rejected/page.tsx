@@ -192,16 +192,16 @@ export default function RejectedPage() {
                             <span className="text-[16px] font-medium text-[#171717] leading-[22px]">3 errors are blocking this submission</span>
                           </div>
                           {/* Error list */}
-                          <div className="flex flex-col -mx-6 border-t border-[var(--color-border-subtle)]">
-                            <div className="flex items-center justify-between gap-4 px-6 py-3 border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+                          <div className="flex flex-col gap-[2px]">
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or incorrect dates of birth</span>
                               <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
-                            <div className="flex items-center justify-between gap-4 px-6 py-3 border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing address lines 1 and 2</span>
                               <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
-                            <div className="flex items-center justify-between gap-4 px-6 py-3 hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
                               <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or unmatched National Insurance numbers (NiNo)</span>
                               <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
                             </div>
