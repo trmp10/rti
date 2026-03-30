@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { PayrollSidebar } from '@/components/PayrollSidebar';
 import { SearchField, InfoFilled } from '@finity/design-system';
 
@@ -44,9 +45,9 @@ function StatusTag({ status }: { status: Status }) {
   );
 }
 
-function Caret() {
+function CaretIcon() {
   return (
-    <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="shrink-0">
       <path d="M0 0L5 6L10 0H0Z" fill="#737373" />
     </svg>
   );
@@ -63,21 +64,42 @@ function SelectFilter({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
-    <div className="relative inline-flex">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-10 pl-3 pr-10 rounded-lg border border-[#a3a3a3] bg-white text-[#737373] appearance-none cursor-pointer hover:border-[var(--color-grey-600)] focus:outline-none text-[16px] w-[160px]"
+    <div className="relative w-[160px]" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full h-[40px] flex items-center justify-between pl-3 pr-4 rounded-lg border border-[#a3a3a3] bg-white text-[16px] font-medium tracking-[0.35px] leading-[22px] cursor-pointer focus:outline-none"
       >
-        <option value="">{label}</option>
-        {options.map((o) => (
-          <option key={o} value={o}>{o}</option>
-        ))}
-      </select>
-      <div className="pointer-events-none absolute right-0 top-0 h-10 w-10 flex items-center justify-center">
-        <Caret />
-      </div>
+        <span className={`truncate text-left flex-1 min-w-0 ${value ? 'text-[#171717]' : 'text-[#737373]'}`}>
+          {value || label}
+        </span>
+        <CaretIcon />
+      </button>
+      {open && (
+        <ul className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-[#a3a3a3] rounded-lg shadow-md overflow-auto max-h-[240px]">
+          {options.map((o) => (
+            <li
+              key={o}
+              onClick={() => { onChange(o); setOpen(false); }}
+              className={`px-3 py-2.5 text-[16px] font-normal text-[#171717] tracking-[0.35px] leading-[22px] cursor-pointer hover:bg-[#f5f5f5] ${o === value ? 'bg-[#fafafa]' : ''}`}
+            >
+              {o}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -100,14 +122,14 @@ export default function RTISubmissionsPage() {
       <PayrollSidebar />
 
       <div className="flex flex-col flex-1 ml-[200px] h-screen overflow-hidden">
-        {/* Top header */}
-        <header className="flex items-center justify-end h-14 px-5 bg-white border-b border-[var(--color-border-subtle)] shrink-0">
+        {/* Header */}
+        <header className="flex items-center justify-end h-[64px] py-2 px-5 bg-[#e5e5e5] shrink-0">
           <div className="flex items-center gap-2">
-            <button className="h-9 px-5 rounded-full bg-[var(--color-red-500)] hover:bg-[var(--color-red-600)] text-white text-[13px] font-semibold transition-colors">
+            <button className="h-[48px] px-4 rounded-full bg-[var(--color-red-600)] hover:bg-[var(--color-red-700)] text-white text-[16px] font-medium tracking-[0.35px] transition-colors">
               Exit payroll
             </button>
-            <div className="size-8 rounded-full bg-[var(--color-grey-200)]" />
-            <div className="size-8 rounded-full bg-[var(--color-grey-200)]" />
+            <div className="size-[48px] rounded-full bg-[var(--color-grey-300)]" />
+            <div className="h-[48px] w-[72px] rounded-full bg-[var(--color-grey-300)]" />
           </div>
         </header>
 
@@ -126,9 +148,12 @@ export default function RTISubmissionsPage() {
           {/* Page header */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-[24px] font-bold tracking-tight text-[var(--color-text-default)]">RTI submissions</h1>
-            <button className="h-10 px-5 rounded-full bg-[var(--color-grey-900)] hover:bg-[var(--color-grey-800)] text-white text-[16px] font-medium transition-colors">
+            <Link
+              href="/pre-validation"
+              className="h-10 px-5 rounded-full bg-[var(--color-grey-900)] hover:bg-[var(--color-grey-800)] text-white text-[16px] font-medium transition-colors inline-flex items-center"
+            >
               Pre-validation
-            </button>
+            </Link>
           </div>
 
           {/* Filters */}
@@ -176,7 +201,7 @@ export default function RTISubmissionsPage() {
                     onClick={() => {
                       if (!dis) router.push('/rejected');
                     }}
-                    className={`border-b border-[var(--color-border-subtle)] last:border-0 transition-colors ${dis ? 'cursor-default' : 'hover:bg-[var(--color-grey-100)] cursor-pointer'}`}
+                    className={`border-b border-[var(--color-border-subtle)] last:border-0 transition-colors ${dis ? 'cursor-not-allowed' : 'hover:bg-[var(--color-grey-100)] cursor-pointer'}`}
                   >
                     <td className={`py-4 pl-2 pr-6 text-[14px] font-semibold ${dis ? 'text-[var(--color-text-tertiary)]' : 'text-[var(--color-text-default)]'}`}>
                       {row.type}

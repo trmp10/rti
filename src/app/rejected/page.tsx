@@ -53,13 +53,13 @@ export default function RejectedPage() {
 
       <div className="flex flex-col flex-1 ml-[200px] h-screen overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-end h-14 px-5 bg-white border-b border-[var(--color-border-subtle)] shrink-0">
+        <header className="flex items-center justify-end h-[64px] py-2 px-5 bg-[#e5e5e5] shrink-0">
           <div className="flex items-center gap-2">
-            <button className="h-9 px-5 rounded-full bg-[var(--color-red-600)] hover:bg-[var(--color-red-700)] text-white text-[14px] font-semibold transition-colors">
+            <button className="h-[48px] px-4 rounded-full bg-[var(--color-red-600)] hover:bg-[var(--color-red-700)] text-white text-[16px] font-medium tracking-[0.35px] transition-colors">
               Exit payroll
             </button>
-            <div className="size-8 rounded-full bg-[var(--color-grey-200)]" />
-            <div className="size-8 rounded-full bg-[var(--color-grey-200)]" />
+            <div className="size-[48px] rounded-full bg-[var(--color-grey-300)]" />
+            <div className="h-[48px] w-[72px] rounded-full bg-[var(--color-grey-300)]" />
           </div>
         </header>
 
@@ -89,12 +89,14 @@ export default function RejectedPage() {
               </div>
 
               {/* Re-send button (disabled) */}
-              <button
-                disabled
-                className="w-full h-10 rounded-full bg-[var(--color-grey-200)] text-[var(--color-grey-400)] text-[16px] font-medium cursor-not-allowed"
-              >
-                Re-send to HMRC
-              </button>
+              <span className="cursor-not-allowed w-full">
+                <button
+                  disabled
+                  className="w-full h-10 rounded-full bg-[var(--color-grey-200)] text-[var(--color-grey-400)] text-[16px] font-medium pointer-events-none"
+                >
+                  Re-send to HMRC
+                </button>
+              </span>
             </div>
 
             {/* Right content */}
@@ -152,12 +154,7 @@ export default function RejectedPage() {
                   </div>
                 </div>
 
-                {/* Card footer */}
-                <div className="px-5 py-3 border-t border-[var(--color-border-subtle)] flex justify-end">
-                  <button className="h-10 px-4 rounded-full border border-[var(--color-border-default)] bg-white text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors cursor-pointer">
-                    Download receipt
-                  </button>
-                </div>
+
               </div>
 
               {/* Submission history card */}
@@ -170,7 +167,7 @@ export default function RejectedPage() {
                 {/* Table */}
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-[var(--color-border-subtle)] bg-[var(--color-grey-50)]">
+                    <tr className="border-b border-[var(--color-border-subtle)]">
                       <th className="px-6 py-3 text-left text-[16px] font-semibold text-[var(--color-text-secondary)] w-[100px]">Attempt</th>
                       <th className="px-6 py-3 text-left text-[16px] font-semibold text-[var(--color-text-secondary)] w-[160px]">Date</th>
                       <th className="px-6 py-3 text-left text-[16px] font-semibold text-[var(--color-text-secondary)] w-[120px]">Status</th>

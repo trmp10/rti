@@ -201,6 +201,30 @@
   --spacing-48: var(--spacing-48);
 }
 
+.show-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e5e5e5 transparent;
+}
+
+.show-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+}
+
+.show-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 8px;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d4d4d4;
+}
+
 body {
   background: var(--color-bg-default);
   color: var(--color-text-default);
