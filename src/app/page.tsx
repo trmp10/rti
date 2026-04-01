@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PayrollSidebar } from '@/components/PayrollSidebar';
-import { SearchField, InfoFilled } from '@finity/design-system';
+import { SearchField, InfoFilled, Button } from '@finity/design-system';
 
 type Status = 'Rejected' | 'Pending' | 'Scheduled' | 'Accepted';
 type SubmissionType = 'EPS' | 'FPS' | 'CISr';
@@ -178,6 +178,16 @@ export default function RTISubmissionsPage() {
               value={statusFilter}
               onChange={setStatusFilter}
             />
+            {(typeFilter || statusFilter) && (
+              <Button
+                variant="tertiary"
+                size="medium"
+                className="!text-base"
+                onClick={() => { setTypeFilter(''); setStatusFilter(''); }}
+              >
+                Clear filters
+              </Button>
+            )}
           </div>
 
           {/* Table */}
