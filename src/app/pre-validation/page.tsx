@@ -294,13 +294,72 @@ const ELEVATE_ERRORS = [
   'Missing or unmatched National Insurance numbers (NiNo)',
 ];
 
-function ErrorList() {
+function MissingSurnamesModal({ taxWeekLabel, onClose }: { taxWeekLabel: string; onClose: () => void }) {
+  const rows = [
+    { employer: 'Bluecrest Solutions', empRef: 'EMP102384' },
+    { employer: 'Bluecrest Solutions', empRef: 'EMP103219' },
+    { employer: 'Elevate Group',       empRef: 'EMP104875' },
+  ];
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+      <div className="bg-white w-[600px] rounded-2xl shadow-xl">
+        <div className="flex items-start justify-between px-6 pt-6 pb-4">
+          <div>
+            <h2 className="text-[20px] font-semibold text-[#171717] leading-[28px] tracking-[0.2px]">Missing surnames</h2>
+            <p className="text-[16px] font-normal text-[#171717] leading-[22px] tracking-[0.35px] mt-1">{taxWeekLabel}</p>
+          </div>
+          <button onClick={onClose} className="size-8 flex items-center justify-center rounded-full hover:bg-[#f5f5f5] transition-colors">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 5L15 15M15 5L5 15" stroke="#171717" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+        <div className="px-6">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-[#e5e5e5]">
+                <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pr-6 tracking-[0.3px]">Employer</th>
+                <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pr-6 tracking-[0.3px]">Employee ref no.</th>
+                <th className="text-right text-[14px] font-semibold text-[#404040] py-[10px] tracking-[0.3px]">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr key={i} className="border-b border-[#e5e5e5] last:border-0">
+                  <td className="text-[14px] font-medium text-[#171717] py-3 pr-6 tracking-[0.3px]">{row.employer}</td>
+                  <td className="text-[14px] font-medium text-[#171717] py-3 pr-6 tracking-[0.3px]">{row.empRef}</td>
+                  <td className="text-right py-3">
+                    <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline">Fix</a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-end px-6 py-6">
+          <button
+            onClick={onClose}
+            className="h-[48px] px-6 rounded-full bg-[#262626] hover:bg-[#171717] text-white text-[16px] font-medium tracking-[0.35px] transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ErrorList({ onFixSurnames }: { onFixSurnames: () => void }) {
   return (
     <div className="flex flex-col gap-[4px]">
       {ELEVATE_ERRORS.map((err) => (
         <div key={err} className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
           <span className="text-[16px] font-normal text-[#171717] leading-[22px] tracking-[0.35px]">{err}</span>
-          <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0">Fix</a>
+          <a
+            href="#"
+            onClick={err === 'Missing surnames' ? (e) => { e.preventDefault(); onFixSurnames(); } : undefined}
+            className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0"
+          >Fix</a>
         </div>
       ))}
     </div>
@@ -394,7 +453,8 @@ export default function PreValidationPage() {
   const [epsCompany, setEpsCompany] = useState('All applicable companies');
   const [lateReason, setLateReason] = useState('No reason provided');
   const [nilSubmission, setNilSubmission] = useState(false);
-  const [verified, setVerified] = useState(false);
+  const [verifiedForType, setVerifiedForType] = useState<ReportType | null>(null);
+  const [showMissingSurnamesModal, setShowMissingSurnamesModal] = useState(false);
 
   const isEPS = reportType === 'EPS' || reportType === 'CISr';
 
@@ -493,7 +553,7 @@ export default function PreValidationPage() {
                     label="Payment company"
                     value={isEPS ? epsCompany : company}
                     options={isEPS ? EPS_COMPANIES : FPS_COMPANIES}
-                    onChange={(v) => { if (isEPS) { setEpsCompany(v); } else { setCompany(v); setVerified(false); } }}
+                    onChange={(v) => { if (isEPS) { setEpsCompany(v); } else { setCompany(v); setVerifiedForType(null); } }}
                   />
 
                   {/* Late reason (FPS) or NIL submission (EPS) */}
@@ -555,11 +615,11 @@ export default function PreValidationPage() {
 
                 {/* Buttons */}
                 <div className="flex items-center gap-2 self-start">
-                  <span className={!verified ? 'cursor-not-allowed' : ''}>
+                  <span className={verifiedForType !== reportType ? 'cursor-not-allowed' : ''}>
                     <button
-                      disabled={!verified}
+                      disabled={verifiedForType !== reportType}
                       className={`h-[40px] px-[16px] rounded-full text-[16px] font-medium tracking-[0.35px] leading-[22px] transition-colors ${
-                        verified
+                        verifiedForType === reportType
                           ? 'bg-[#262626] hover:bg-[#171717] text-white cursor-pointer'
                           : 'bg-[#e5e5e5] text-[#a3a3a3] pointer-events-none'
                       }`}
@@ -568,7 +628,7 @@ export default function PreValidationPage() {
                     </button>
                   </span>
                   <button
-                    onClick={() => setVerified(true)}
+                    onClick={() => setVerifiedForType(reportType)}
                     className="h-[40px] px-[16px] rounded-full border border-[#262626] bg-white hover:bg-[#f5f5f5] text-[#262626] text-[16px] font-medium tracking-[0.35px] leading-[22px] transition-colors cursor-pointer"
                   >
                     Verify data
@@ -579,12 +639,12 @@ export default function PreValidationPage() {
             </div>
 
             {/* Verify result */}
-            {verified && reportType === 'FPS' && (
+            {verifiedForType === 'FPS' && reportType === 'FPS' && (
               company === 'Elevate Group' ? (
                 <div className="flex justify-center w-full mt-[32px]">
                   <div className="flex flex-col gap-4 w-[596px]">
                     <ErrorResultBanner />
-                    <ErrorList />
+                    <ErrorList onFixSurnames={() => setShowMissingSurnamesModal(true)} />
                   </div>
                 </div>
               ) : (
@@ -593,6 +653,14 @@ export default function PreValidationPage() {
                   <VerificationTable />
                 </div>
               )
+            )}
+
+            {/* Missing surnames modal */}
+            {showMissingSurnamesModal && (
+              <MissingSurnamesModal
+                taxWeekLabel={taxWeek}
+                onClose={() => setShowMissingSurnamesModal(false)}
+              />
             )}
 
           </div>
