@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { PayrollSidebar } from '@/components/PayrollSidebar';
-import { InfoFilled } from '@finity/design-system';
+import { Button } from '@finity/design-system';
 
 // ─── Date helpers ────────────────────────────────────────────────────────────
 
@@ -164,8 +165,12 @@ const NOTIFICATION_TEXT: Partial<Record<'FPS' | 'EPS' | 'CISr', string>> = {};
 function SectionNotification({ type }: { type: 'FPS' | 'EPS' | 'CISr' }) {
   return (
     <div className="flex items-start gap-2 bg-[#f5f5f5] rounded-[12px] pl-4 pr-5 py-4 w-full">
-      <div className="pt-[2px] shrink-0 text-[#171717]">
-        <InfoFilled size={20} color="#171717" />
+      <div className="pt-[2px] shrink-0">
+        <svg width="16" height="16" viewBox="0 0 14.6667 14.6667" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.6667 7.33333C14.6667 11.3834 11.3834 14.6667 7.33333 14.6667C3.28325 14.6667 0 11.3834 0 7.33333C0 3.28325 3.28325 0 7.33333 0C11.3834 0 14.6667 3.28325 14.6667 7.33333Z" fill="#525252"/>
+          <path fillRule="evenodd" clipRule="evenodd" d="M7.33333 12.3333C6.78105 12.3333 6.33333 11.8856 6.33333 11.3333L6.33333 7.33333C6.33333 6.78105 6.78105 6.33333 7.33333 6.33333C7.88562 6.33333 8.33333 6.78105 8.33333 7.33333L8.33333 11.3333C8.33333 11.8856 7.88562 12.3333 7.33333 12.3333Z" fill="white"/>
+          <path d="M6 4C6 3.26362 6.59695 2.66667 7.33333 2.66667C8.06971 2.66667 8.66667 3.26362 8.66667 4C8.66667 4.73638 8.06971 5.33333 7.33333 5.33333C6.59695 5.33333 6 4.73638 6 4Z" fill="white"/>
+        </svg>
       </div>
       <p className="text-[16px] font-medium text-[#171717] leading-[22px] tracking-[0.35px]">
         {NOTIFICATION_TEXT[type]}
@@ -294,72 +299,163 @@ const ELEVATE_ERRORS = [
   'Missing or unmatched National Insurance numbers (NiNo)',
 ];
 
-function MissingSurnamesModal({ taxWeekLabel, onClose }: { taxWeekLabel: string; onClose: () => void }) {
-  const rows = [
-    { employer: 'Bluecrest Solutions', empRef: 'EMP102384' },
-    { employer: 'Bluecrest Solutions', empRef: 'EMP103219' },
-    { employer: 'Elevate Group',       empRef: 'EMP104875' },
-  ];
+function ModalShell({ title, subtitle, onClose, children }: { title: string; subtitle: string; onClose: () => void; children: React.ReactNode }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white w-[600px] rounded-2xl shadow-xl">
-        <div className="flex items-start justify-between px-6 pt-6 pb-4">
-          <div>
-            <h2 className="text-[20px] font-semibold text-[#171717] leading-[28px] tracking-[0.2px]">Missing surnames</h2>
-            <p className="text-[16px] font-normal text-[#171717] leading-[22px] tracking-[0.35px] mt-1">{taxWeekLabel}</p>
-          </div>
-          <button onClick={onClose} className="size-8 flex items-center justify-center rounded-full hover:bg-[#f5f5f5] transition-colors">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 5L15 15M15 5L5 15" stroke="#171717" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
-          </button>
+      <div className="relative bg-white w-[600px] rounded-2xl shadow-xl">
+        <button onClick={onClose} className="absolute top-2 right-2 size-[32px] flex items-center justify-center rounded-full hover:bg-[#f5f5f5] transition-colors">
+          <svg width="10" height="10" viewBox="0 0 11.5 11.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.75 0.75L5.75 5.75L10.75 10.75M0.75 10.75L10.75 0.75" stroke="#171717" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+        <div className="px-6 pt-6 pb-4">
+          <h2 className="text-[20px] font-semibold text-[#171717] leading-[28px] tracking-[0.2px]">{title}</h2>
+          <p className="text-[16px] font-normal text-[#171717] leading-[22px] tracking-[0.35px] mt-1">{subtitle}</p>
         </div>
-        <div className="px-6">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-[#e5e5e5]">
-                <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pr-6 tracking-[0.3px]">Employer</th>
-                <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pr-6 tracking-[0.3px]">Employee ref no.</th>
-                <th className="text-right text-[14px] font-semibold text-[#404040] py-[10px] tracking-[0.3px]">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, i) => (
-                <tr key={i} className="border-b border-[#e5e5e5] last:border-0">
-                  <td className="text-[14px] font-medium text-[#171717] py-3 pr-6 tracking-[0.3px]">{row.employer}</td>
-                  <td className="text-[14px] font-medium text-[#171717] py-3 pr-6 tracking-[0.3px]">{row.empRef}</td>
-                  <td className="text-right py-3">
-                    <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline">Fix</a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="overflow-y-auto max-h-[320px] show-scrollbar">
+          {children}
         </div>
         <div className="flex justify-end px-6 py-6">
-          <button
-            onClick={onClose}
-            className="h-[48px] px-6 rounded-full bg-[#262626] hover:bg-[#171717] text-white text-[16px] font-medium tracking-[0.35px] transition-colors"
-          >
-            Close
-          </button>
+          <Button variant="primary" size="medium" className="!text-base" onClick={onClose}>Close</Button>
         </div>
       </div>
     </div>
   );
 }
 
-function ErrorList({ onFixSurnames }: { onFixSurnames: () => void }) {
+function MissingSurnamesModal({ taxWeekLabel, onClose }: { taxWeekLabel: string; onClose: () => void }) {
+  const rows = [
+    { name: 'James', ref: 'EMP102384' },
+    { name: 'Sophie', ref: 'EMP103219' },
+    { name: 'Oliver', ref: 'EMP104875' },
+    { name: 'Charlotte', ref: 'EMP105612' },
+    { name: 'Harry', ref: 'EMP106743' },
+    { name: 'Amelia', ref: 'EMP107891' },
+    { name: 'George', ref: 'EMP108234' },
+    { name: 'Isla', ref: 'EMP109567' },
+    { name: 'Jack', ref: 'EMP110023' },
+    { name: 'Poppy', ref: 'EMP111456' },
+    { name: 'Alfie', ref: 'EMP112789' },
+    { name: 'Ava', ref: 'EMP113012' },
+    { name: 'Freddie', ref: 'EMP114345' },
+    { name: 'Lily', ref: 'EMP115678' },
+    { name: 'Charlie', ref: 'EMP116901' },
+    { name: 'Grace', ref: 'EMP117234' },
+    { name: 'Archie', ref: 'EMP118567' },
+    { name: 'Evie', ref: 'EMP119890' },
+    { name: 'Henry', ref: 'EMP120123' },
+    { name: 'Mia', ref: 'EMP121456' },
+    { name: 'Theo', ref: 'EMP122789' },
+    { name: 'Ruby', ref: 'EMP123012' },
+    { name: 'Oscar', ref: 'EMP124345' },
+    { name: 'Ella', ref: 'EMP125678' },
+  ];
+  return (
+    <ModalShell title="Missing surnames" subtitle={taxWeekLabel} onClose={onClose}>
+      <table className="w-full">
+        <thead className="sticky top-0 bg-white">
+          <tr className="border-b border-[#e5e5e5]">
+            <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pl-6 pr-4 tracking-[0.3px]">Worker</th>
+            <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pr-4 tracking-[0.3px]">Reference no.</th>
+            <th className="text-right text-[14px] font-semibold text-[#404040] py-[10px] pr-6 tracking-[0.3px]">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} className="border-b border-[#e5e5e5] last:border-0 hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+              <td className="text-[14px] font-medium text-[#171717] py-3 pl-6 pr-4 tracking-[0.3px]">{row.name}</td>
+              <td className="text-[14px] font-medium text-[#171717] py-3 pr-4 tracking-[0.3px]">{row.ref}</td>
+              <td className="text-right py-3 pr-6">
+                <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline">Fix</a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </ModalShell>
+  );
+}
+
+function MissingDobModal({ taxWeekLabel, onClose }: { taxWeekLabel: string; onClose: () => void }) {
+  const rows = [
+    { name: 'Marcus Webb', ref: 'EMP204517' },
+    { name: 'Priya Nair', ref: 'EMP208832' },
+  ];
+  return (
+    <ModalShell title="Missing or incorrect dates of birth" subtitle={taxWeekLabel} onClose={onClose}>
+      <table className="w-full">
+        <thead className="sticky top-0 bg-white">
+          <tr className="border-b border-[#e5e5e5]">
+            <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pl-6 pr-4 tracking-[0.3px]">Worker</th>
+            <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pr-4 tracking-[0.3px]">Reference no.</th>
+            <th className="text-right text-[14px] font-semibold text-[#404040] py-[10px] pr-6 tracking-[0.3px]">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} className="border-b border-[#e5e5e5] last:border-0 hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+              <td className="text-[14px] font-medium text-[#171717] py-3 pl-6 pr-4 tracking-[0.3px]">{row.name}</td>
+              <td className="text-[14px] font-medium text-[#171717] py-3 pr-4 tracking-[0.3px]">{row.ref}</td>
+              <td className="text-right py-3 pr-6">
+                <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline">Fix</a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </ModalShell>
+  );
+}
+
+function MissingNinoModal({ taxWeekLabel, onClose }: { taxWeekLabel: string; onClose: () => void }) {
+  const rows = [
+    { name: 'Daniel Frost', ref: 'EMP301124' },
+    { name: 'Aisha Okonkwo', ref: 'EMP305678' },
+    { name: 'Liam Sherwood', ref: 'EMP309941' },
+    { name: 'Fatima Al-Hassan', ref: 'EMP312203' },
+  ];
+  return (
+    <ModalShell title="Missing or unmatched National Insurance numbers" subtitle={taxWeekLabel} onClose={onClose}>
+      <table className="w-full">
+        <thead className="sticky top-0 bg-white">
+          <tr className="border-b border-[#e5e5e5]">
+            <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pl-6 pr-4 tracking-[0.3px]">Worker</th>
+            <th className="text-left text-[14px] font-semibold text-[#404040] py-[10px] pr-4 tracking-[0.3px]">Reference no.</th>
+            <th className="text-right text-[14px] font-semibold text-[#404040] py-[10px] pr-6 tracking-[0.3px]">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} className="border-b border-[#e5e5e5] last:border-0 hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+              <td className="text-[14px] font-medium text-[#171717] py-3 pl-6 pr-4 tracking-[0.3px]">{row.name}</td>
+              <td className="text-[14px] font-medium text-[#171717] py-3 pr-4 tracking-[0.3px]">{row.ref}</td>
+              <td className="text-right py-3 pr-6">
+                <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline">Fix</a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </ModalShell>
+  );
+}
+
+function ErrorList({ onFixDob, onFixSurnames, onFixNino }: { onFixDob: () => void; onFixSurnames: () => void; onFixNino: () => void }) {
+  const handlers: Record<string, () => void> = {
+    'Missing or incorrect dates of birth': onFixDob,
+    'Missing surnames': onFixSurnames,
+    'Missing or unmatched National Insurance numbers (NiNo)': onFixNino,
+  };
   return (
     <div className="flex flex-col gap-[4px]">
       {ELEVATE_ERRORS.map((err) => (
-        <div key={err} className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+        <div
+          key={err}
+          onClick={handlers[err]}
+          className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors"
+        >
           <span className="text-[16px] font-normal text-[#171717] leading-[22px] tracking-[0.35px]">{err}</span>
-          <a
-            href="#"
-            onClick={err === 'Missing surnames' ? (e) => { e.preventDefault(); onFixSurnames(); } : undefined}
-            className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0"
-          >Fix</a>
+          <a href="#" onClick={(e) => e.preventDefault()} className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0">Fix</a>
         </div>
       ))}
     </div>
@@ -428,6 +524,7 @@ const FPS_COMPANIES = ['Bluecrest Solutions', 'Elevate Group'];
 const EPS_COMPANIES = ['All applicable companies', 'Bluecrest Solutions', 'Elevate Group'];
 
 export default function PreValidationPage() {
+  const router = useRouter();
   const today = useMemo(() => new Date(), []);
   const currentTaxYearStart = useMemo(() => getTaxYearStartYear(today), [today]);
   const currentWeekNumber = useMemo(() => getTaxWeekNumber(today), [today]);
@@ -455,6 +552,8 @@ export default function PreValidationPage() {
   const [nilSubmission, setNilSubmission] = useState(false);
   const [verifiedForType, setVerifiedForType] = useState<ReportType | null>(null);
   const [showMissingSurnamesModal, setShowMissingSurnamesModal] = useState(false);
+  const [showMissingDobModal, setShowMissingDobModal] = useState(false);
+  const [showMissingNinoModal, setShowMissingNinoModal] = useState(false);
 
   const isEPS = reportType === 'EPS' || reportType === 'CISr';
 
@@ -587,7 +686,7 @@ export default function PreValidationPage() {
                           <circle cx="8" cy="5" r="0.8" fill="white" />
                         </svg>
                         <p className="text-[14px] font-medium text-[#525252] leading-[20px] tracking-[0.3px]">
-                          {reportType} are sent on the 10th of each month
+                          {reportType} are sent automatically on the 10th of each month
                         </p>
                       </div>
                     </div>
@@ -606,7 +705,7 @@ export default function PreValidationPage() {
                           <circle cx="8" cy="5" r="0.8" fill="white" />
                         </svg>
                         <p className="text-[14px] font-medium text-[#525252] leading-[20px] tracking-[0.3px]">
-                          FPS are sent after 5PM on Fridays
+                          FPS are sent automatically after 5PM on Fridays
                         </p>
                       </div>
                     </div>
@@ -614,26 +713,33 @@ export default function PreValidationPage() {
                 </div>
 
                 {/* Buttons */}
-                <div className="flex items-center gap-2 self-start">
-                  <span className={verifiedForType !== reportType ? 'cursor-not-allowed' : ''}>
-                    <button
-                      disabled={verifiedForType !== reportType}
-                      className={`h-[40px] px-[16px] rounded-full text-[16px] font-medium tracking-[0.35px] leading-[22px] transition-colors ${
-                        verifiedForType === reportType
-                          ? 'bg-[#262626] hover:bg-[#171717] text-white cursor-pointer'
-                          : 'bg-[#e5e5e5] text-[#a3a3a3] pointer-events-none'
-                      }`}
-                    >
-                      Send to HMRC
-                    </button>
-                  </span>
-                  <button
-                    onClick={() => setVerifiedForType(reportType)}
-                    className="h-[40px] px-[16px] rounded-full border border-[#262626] bg-white hover:bg-[#f5f5f5] text-[#262626] text-[16px] font-medium tracking-[0.35px] leading-[22px] transition-colors cursor-pointer"
-                  >
-                    Verify data
-                  </button>
-                </div>
+                {(() => {
+                  const hasErrors = verifiedForType === reportType && reportType === 'FPS' && company === 'Elevate Group';
+                  const sendDisabled = verifiedForType !== reportType || hasErrors;
+                  return (
+                    <div className="flex items-center gap-2 self-start">
+                      <button
+                        onClick={() => setVerifiedForType(reportType)}
+                        className="h-[40px] px-[16px] rounded-full border border-[#262626] bg-white hover:bg-[#f5f5f5] text-[#262626] text-[16px] font-medium tracking-[0.35px] leading-[22px] transition-colors cursor-pointer"
+                      >
+                        Verify data
+                      </button>
+                      <span className={sendDisabled ? 'cursor-not-allowed' : ''}>
+                        <button
+                          disabled={sendDisabled}
+                          onClick={() => !sendDisabled && router.push('/send-to-hmrc')}
+                          className={`h-[40px] px-[16px] rounded-full text-[16px] font-medium tracking-[0.35px] leading-[22px] transition-colors ${
+                            sendDisabled
+                              ? 'bg-[#e5e5e5] text-[#a3a3a3] pointer-events-none'
+                              : 'bg-[#262626] hover:bg-[#171717] text-white cursor-pointer'
+                          }`}
+                        >
+                          Send to HMRC
+                        </button>
+                      </span>
+                    </div>
+                  );
+                })()}
 
               </div>
             </div>
@@ -644,7 +750,11 @@ export default function PreValidationPage() {
                 <div className="flex justify-center w-full mt-[32px]">
                   <div className="flex flex-col gap-4 w-[596px]">
                     <ErrorResultBanner />
-                    <ErrorList onFixSurnames={() => setShowMissingSurnamesModal(true)} />
+                    <ErrorList
+                      onFixDob={() => setShowMissingDobModal(true)}
+                      onFixSurnames={() => setShowMissingSurnamesModal(true)}
+                      onFixNino={() => setShowMissingNinoModal(true)}
+                    />
                   </div>
                 </div>
               ) : (
@@ -655,12 +765,14 @@ export default function PreValidationPage() {
               )
             )}
 
-            {/* Missing surnames modal */}
+            {showMissingDobModal && (
+              <MissingDobModal taxWeekLabel={taxWeek} onClose={() => setShowMissingDobModal(false)} />
+            )}
             {showMissingSurnamesModal && (
-              <MissingSurnamesModal
-                taxWeekLabel={taxWeek}
-                onClose={() => setShowMissingSurnamesModal(false)}
-              />
+              <MissingSurnamesModal taxWeekLabel={taxWeek} onClose={() => setShowMissingSurnamesModal(false)} />
+            )}
+            {showMissingNinoModal && (
+              <MissingNinoModal taxWeekLabel={taxWeek} onClose={() => setShowMissingNinoModal(false)} />
             )}
 
           </div>

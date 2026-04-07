@@ -105,15 +105,17 @@ export default function RejectedPage() {
               {/* Employer Payment Summary card */}
               <div className="bg-white border border-[var(--color-border-subtle)] rounded-xl overflow-hidden">
                 {/* Card header */}
-                <div className="px-5 py-4 border-b border-[var(--color-border-subtle)]">
+                <div className="px-5 pt-4 pb-0">
                   <p className="text-[18px] font-semibold text-[var(--color-text-default)] leading-[24px]">Employer Payment Summary</p>
                   <p className="text-[16px] font-normal text-[#404040] leading-[22px] mt-0.5">
                     Recoverable amounts and periods of incapacity or zero pay sent to HMRC.
                   </p>
                 </div>
 
+                <div className="h-4" />
+
                 {/* Card body */}
-                <div className="px-5 pt-5 pb-5">
+                <div className="px-5 pt-0 pb-5">
                   {/* Inline info rows */}
                   <div className="flex flex-col gap-[4px]">
                     <DataRow label="Tax year" value="2024-2025" />
@@ -159,68 +161,115 @@ export default function RejectedPage() {
 
               {/* Submission history card */}
               <div className="bg-white border border-[var(--color-border-subtle)] rounded-xl overflow-hidden">
-                {/* Card header */}
-                <div className="px-5 py-4 border-b border-[var(--color-border-subtle)]">
+                {/* Card header — no bottom divider */}
+                <div className="px-5 pt-4 pb-0">
                   <p className="text-[18px] font-semibold text-[var(--color-text-default)] leading-[24px]">Submission history</p>
                 </div>
 
                 {/* Table */}
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-[var(--color-border-subtle)]">
-                      <th className="px-6 py-3 text-left text-[16px] font-semibold text-[var(--color-text-secondary)] w-[100px]">Attempt</th>
-                      <th className="px-6 py-3 text-left text-[16px] font-semibold text-[var(--color-text-secondary)] w-[160px]">Date</th>
-                      <th className="px-6 py-3 text-left text-[16px] font-semibold text-[var(--color-text-secondary)] w-[120px]">Status</th>
-                      <th className="px-6 py-3 text-left text-[16px] font-semibold text-[var(--color-text-secondary)]">Details</th>
+                    <tr>
+                      <th className="py-4 pl-5 pr-4 text-left text-[14px] font-semibold text-[var(--color-text-secondary)] tracking-[0.3px] w-[100px]">Attempt</th>
+                      <th className="p-4 text-left text-[14px] font-semibold text-[var(--color-text-secondary)] tracking-[0.3px] w-[160px]">Date</th>
+                      <th className="p-4 text-left text-[14px] font-semibold text-[var(--color-text-secondary)] tracking-[0.3px] w-[120px]">Status</th>
+                      <th className="py-4 pl-4 pr-5 text-left text-[14px] font-semibold text-[var(--color-text-secondary)] tracking-[0.3px]">Details</th>
+                    </tr>
+                    <tr>
+                      <td colSpan={4} className="p-0">
+                        <div className="mx-5 border-t border-[var(--color-border-subtle)]" />
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="px-6 py-3 text-[16px] font-medium text-[var(--color-text-default)] align-top">1</td>
-                      <td className="px-6 py-3 text-[16px] font-medium text-[var(--color-text-default)] align-top whitespace-nowrap">21/03/2025 (8:12)</td>
-                      <td className="px-6 py-3 align-top">
+                      <td className="py-4 pl-5 pr-4 text-[14px] font-medium text-[var(--color-text-default)] tracking-[0.3px] align-top">2</td>
+                      <td className="p-4 text-[14px] font-medium text-[var(--color-text-default)] tracking-[0.3px] align-top whitespace-nowrap">28/03/2025 (5:35)</td>
+                      <td className="p-4 align-top">
                         <RejectedTag />
                       </td>
-                      <td className="px-6 py-4 align-top">
+                      <td className="py-4 pl-4 pr-5 align-top">
                         <div className="flex flex-col gap-4">
-                          {/* Section notification */}
                           <div className="flex items-center gap-2">
                             <ErrorIcon />
-                            <span className="text-[16px] font-medium text-[#171717] leading-[22px]">3 errors are blocking this submission</span>
+                            <span className="text-[14px] font-medium text-[#171717] leading-[20px] tracking-[0.3px]">1 error is blocking this submission</span>
                           </div>
-                          {/* Error list */}
                           <div className="flex flex-col gap-[2px]">
                             <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
-                              <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or incorrect dates of birth</span>
-                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
-                            </div>
-                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
-                              <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing address lines 1 and 2</span>
-                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
-                            </div>
-                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
-                              <span className="text-[16px] font-normal text-[var(--color-text-default)] leading-[22px]">Missing or unmatched National Insurance numbers (NiNo)</span>
-                              <a href="#" className="text-[16px] font-semibold text-[var(--color-coral-400)] underline leading-[22px] shrink-0 cursor-pointer">Fix</a>
+                              <span className="text-[14px] font-normal text-[var(--color-text-default)] leading-[20px] tracking-[0.3px] font-medium">Missing or unmatched National Insurance numbers (NiNo)</span>
+                              <a href="#" className="text-[14px] font-semibold text-[var(--color-coral-400)] underline leading-[20px] shrink-0 cursor-pointer">Fix</a>
                             </div>
                           </div>
                         </div>
                       </td>
                     </tr>
+                    <tr>
+                      <td colSpan={4} className="px-5 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <button className="h-[32px] px-[12px] rounded-full text-[14px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
+                            Request XML
+                          </button>
+                          <button className="h-[32px] px-[12px] rounded-full text-[14px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
+                            Response XML
+                          </button>
+                          <button className="h-[32px] px-[12px] rounded-full border border-[var(--color-border-default)] bg-white text-[14px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors cursor-pointer">
+                            Smart inspection
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={4} className="p-0">
+                        <div className="mx-5 border-t border-[var(--color-border-subtle)]" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-4 pl-5 pr-4 text-[14px] font-medium text-[var(--color-text-default)] tracking-[0.3px] align-top">1</td>
+                      <td className="p-4 text-[14px] font-medium text-[var(--color-text-default)] tracking-[0.3px] align-top whitespace-nowrap">21/03/2025 (8:12)</td>
+                      <td className="p-4 align-top">
+                        <RejectedTag />
+                      </td>
+                      <td className="py-4 pl-4 pr-5 align-top">
+                        <div className="flex flex-col gap-4">
+                          <div className="flex items-center gap-2">
+                            <ErrorIcon />
+                            <span className="text-[14px] font-medium text-[#171717] leading-[20px] tracking-[0.3px]">3 errors are blocking this submission</span>
+                          </div>
+                          <div className="flex flex-col gap-[2px]">
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+                              <span className="text-[14px] font-normal text-[var(--color-text-default)] leading-[20px] tracking-[0.3px] font-medium">Missing or incorrect dates of birth</span>
+                              <a href="#" className="text-[14px] font-semibold text-[var(--color-coral-400)] underline leading-[20px] shrink-0 cursor-pointer">Fix</a>
+                            </div>
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+                              <span className="text-[14px] font-normal text-[var(--color-text-default)] leading-[20px] tracking-[0.3px] font-medium">Missing address lines 1 and 2</span>
+                              <a href="#" className="text-[14px] font-semibold text-[var(--color-coral-400)] underline leading-[20px] shrink-0 cursor-pointer">Fix</a>
+                            </div>
+                            <div className="flex items-center justify-between gap-2 px-2 py-1.5 -mx-2 rounded-lg hover:bg-[var(--color-grey-100)] cursor-pointer transition-colors">
+                              <span className="text-[14px] font-normal text-[var(--color-text-default)] leading-[20px] tracking-[0.3px] font-medium">Missing or unmatched National Insurance numbers (NiNo)</span>
+                              <a href="#" className="text-[14px] font-semibold text-[var(--color-coral-400)] underline leading-[20px] shrink-0 cursor-pointer">Fix</a>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={4} className="px-5 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <button className="h-[32px] px-[12px] rounded-full text-[14px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
+                            Request XML
+                          </button>
+                          <button className="h-[32px] px-[12px] rounded-full text-[14px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
+                            Response XML
+                          </button>
+                          <button className="h-[32px] px-[12px] rounded-full border border-[var(--color-border-default)] bg-white text-[14px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors cursor-pointer">
+                            Smart inspection
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-
-                {/* Card footer */}
-                <div className="px-5 py-3 border-t border-[var(--color-border-subtle)] flex items-center justify-end gap-2">
-                  <button className="h-10 px-4 rounded-full text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
-                    Request XML
-                  </button>
-                  <button className="h-10 px-4 rounded-full text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-100)] transition-colors cursor-pointer">
-                    Response XML
-                  </button>
-                  <button className="h-10 px-4 rounded-full border border-[var(--color-border-default)] bg-white text-[16px] font-medium text-[var(--color-text-default)] hover:bg-[var(--color-grey-50)] transition-colors cursor-pointer">
-                    Smart inspection
-                  </button>
-                </div>
+                <div className="h-5" />
               </div>
 
             </div>
