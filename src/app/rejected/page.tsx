@@ -166,6 +166,8 @@ export default function RejectedPage() {
                   <p className="text-[18px] font-semibold text-[var(--color-text-default)] leading-[24px]">Submission history</p>
                 </div>
 
+                <div className="h-2" />
+
                 {/* Table */}
                 <table className="w-full">
                   <thead>
@@ -269,7 +271,6 @@ export default function RejectedPage() {
                     </tr>
                   </tbody>
                 </table>
-                <div className="h-5" />
               </div>
 
             </div>

@@ -118,10 +118,12 @@ export default function SendToHmrcPage() {
               </div>
 
               {/* Submission history card */}
-              <div className="bg-white border border-[var(--color-border-subtle)] rounded-xl overflow-hidden">
+              <div className="bg-white border border-[var(--color-border-subtle)] rounded-xl overflow-hidden h-[300px] flex flex-col">
                 <div className="px-5 pt-4 pb-0">
                   <p className="text-[18px] font-semibold text-[var(--color-text-default)] leading-[24px]">Submission history</p>
                 </div>
+
+                <div className="h-2" />
 
                 <table className="w-full">
                   <thead>
@@ -148,7 +150,6 @@ export default function SendToHmrcPage() {
                     </tr>
                   </tbody>
                 </table>
-                <div className="h-5" />
               </div>
 
             </div>
